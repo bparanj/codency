@@ -5,3 +5,13 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+n = 2
+
+1.upto(n) do |num|
+  file = File.read("./db/data/#{num}.json")
+  hash = JSON.parse(file)
+
+  Episode.create(hash)  
+end
+

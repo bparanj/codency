@@ -14,6 +14,7 @@ class Episode < ApplicationRecord
   private
   
   def populate_file_size
+    # Delete this line before generating the real feed
     return 10 if true
     
     begin
