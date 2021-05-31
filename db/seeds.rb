@@ -11,7 +11,8 @@ n = 2
 1.upto(n) do |num|
   file = File.read("./db/data/#{num}.json")
   hash = JSON.parse(file)
+  hash['description'] = hash['description'].join("\n")
 
-  Episode.create(hash)  
+  Episode.create(hash)
 end
 

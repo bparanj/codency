@@ -1,6 +1,12 @@
 {
-  "title":"Prefix Sum",
-  "description":"The basics of prefix sum",
+  "title":"Modulo Operator",
+  "description": [
+    "What is modulo operator?",
+    "Odd and even number check.",
+    "Check for a multiple of a number.",
+    "Extract rightmost digit.",
+    "Modular arithmetic."
+  ],
   "link":"https://www.codingfluency.com/episodes/1",
   "duration":"10",
   "sequence":"1",
