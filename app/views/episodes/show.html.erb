@@ -1,0 +1,19 @@
+<div class='container'>
+	<h1 class="episode-title">#<%= @episode.sequence %> <%= @episode.title %></h1>
+  <p class="sub-heading">
+		<span><%= published_at(@episode) %> | <%= @episode.duration %> mins </span>
+	</p>
+
+	<p class="episode-text">  
+	  <%= @episode.description %>
+	</p>
+    
+  <p class="episode-text">
+      <video width="960" height="600" controls>
+        <source src="<%= @episode.link %>" type="video/mp4">
+                    
+      Your browser does not support the video tag.
+      </video>
+  </p>
+	
+</div>

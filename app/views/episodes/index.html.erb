@@ -1,0 +1,25 @@
+<main>  
+  <div class="container" id="episode-page">
+        
+		  <div>
+		    <div class="row">
+			   <div class="col-md-12">
+			    <h1>Catalogue</h1>
+			   </div>
+			  </div> 
+		  </div>
+
+      <% @episodes.each do |episode| %>
+        <div class='episode'>
+          <%= link_to "##{episode.sequence} #{episode.title}", episode %> 
+
+          <div class="sub-heading"><span> <%= published_at(episode) %> | <%= episode.duration %> mins </span></div>
+          <div class="episode-text">
+              <%= episode.description %>
+          </div> 
+        </div>       
+
+      <% end %>
+
+	</div> <!-- container -->
+</main>

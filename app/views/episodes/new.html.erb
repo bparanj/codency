@@ -1,0 +1,39 @@
+<div class='container'>
+	<h1>New Episode</h1>
+
+	<%= form_with model: @episode do |form| %>
+	  <div class="mb-3">
+	    <%= form.label :title %><br>
+	    <%= form.text_field :title, size: '50' %>
+	  </div>
+
+	  <div class="mb-3">
+	    <%= form.label :description %><br>
+	    <%= form.text_area :description,cols: "100", rows: "10"  %>
+	  </div>
+
+	  <div class="mb-3">
+	    <%= form.label :sequence %><br>
+	    <%= form.number_field :sequence %>
+	  </div>  
+
+	  <div class="mb-3">
+	    <%= form.label :link %><br>
+	    <%= form.text_field :link, size: '50', value: @episode.link %>
+	  </div>
+
+	  <div class="mb-3">
+	    <%= form.label :duration %><br>
+	    <%= form.text_field :duration %>
+	  </div>
+
+	  <div class="mb-3">
+	    <%= form.label 'Publish Date' %><br>
+	    <%= form.date_select :published_at, order: [:month, :day, :year], start_year: Date.current.year - 5, end_year: Date.current.year + 1, selected: @date %>
+	  </div>
+
+	  <div>
+      <%= form.submit 'Submit', class: 'btn btn-primary' %>
+	  </div>
+	<% end %>
+</div>

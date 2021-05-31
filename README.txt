@@ -82,3 +82,106 @@
 
 https://support.google.com/podcast-publishers/answer/9889544?hl=en
 
+
+
+class FeedsController < ApplicationController
+ 
+  layout false
+ 
+  def rss
+    @posts = Post.published_posts.limit(50)
+  end
+ 
+end
+
+
+
+Then create a view in views/feeds/podcast.rss.builder for RSS.
+
+xml.instruct!
+xml.rss :version => '2.0', 'xmlns:atom' => 'http://www.w3.org/2005/Atom' do
+ 
+  xml.channel do
+    xml.title 'Feed title'
+    xml.description 'Feed description'
+    xml.link root_url
+    xml.language 'en'
+    xml.tag! 'atom:link', :rel => 'self', :type => 'application/rss+xml', :href => posts_url
+ 
+    for post in @posts
+      xml.item do
+        xml.title post.title
+        xml.category post.category.name
+        xml.pubDate(post.created_at.rfc2822)
+        xml.link post_url(post)
+        xml.guid post_url(post)
+        xml.description(h(post.body))
+        xml.image_url post.image_url
+      end
+    end
+ 
+  end
+ 
+end
+
+get 'feed.rss', to: 'feeds#rss', :format => 'rss'
+
+
+<%= auto_discovery_link_tag(:rss, "http://example.com") %>
+
+
+
+title       = "GoRails Screencasts"
+author      = "Chris Oliver"
+description = "GoRails is a series of screencasts and guides for all aspects of Ruby on Rails. Learn how to setup your machine, build a Rails application, and deploy it to a server."
+keywords    = "rails, ruby on rails, screencasts, programming, refactoring, coding"
+image       = asset_url("itunes.png")
+
+xml.instruct! :xml, version: "1.0"
+xml.rss version: "2.0", "xmlns:itunes" => "http://www.itunes.com/dtds/podcast-1.0.dtd", "xmlns:media" => "http://search.yahoo.com/mrss/" do
+  xml.channel do
+    xml.title title
+    xml.link episodes_url
+    xml.description description
+    xml.language 'en'
+    xml.pubDate @episodes.first.created_at.to_s(:rfc822)
+    xml.lastBuildDate @episodes.first.created_at.to_s(:rfc822)
+    xml.itunes :author, author
+    xml.itunes :keywords, keywords
+    xml.itunes :explicit, 'clean'
+    xml.itunes :image, :href => image
+    xml.itunes :owner do
+      xml.itunes :name, author
+      xml.itunes :email, 'chris@gorails.com'
+    end
+    xml.itunes :block, 'no'
+    xml.itunes :category, text: 'Technology' do
+      xml.itunes :category, text: 'Software How-To'
+    end
+    xml.itunes :category, text: 'Education' do
+      xml.itunes :category, text: 'Training'
+    end
+
+    @episodes.each do  |episode|
+      xml.item do
+        xml.title episode.name
+        xml.summary episode.description
+        xml.pubDate episode.created_at.to_s(:rfc822)
+        xml.enclosure url: episode.download_url, length: episode.file_size, type: 'video/mp4'
+        xml.link episode_url(episode)
+        xml.guid({isPermaLink: "false"}, episode.slug)
+        xml.itunes :author, author
+        xml.itunes :subtitle, truncate(episode.description, length: 150)
+        xml.itunes :summary, episode.description
+        xml.itunes :explicit, 'no'
+        xml.itunes :duration, episode.length
+      end
+    end
+  end
+end
+
+
+
+
+
+
